@@ -29,13 +29,14 @@ const getUsers = (request, response) => {
   }
 
   const createUser = (request, response) => {
-    const { id, name, email } = request.body
+    const {  firstname, lastname, email, password } = request.body
   
-    pool.query('INSERT INTO users (id, name, email) VALUES ($1, $2, $3) RETURNING *', [id, name, email], (error, results) => {
+    pool.query('INSERT INTO users (firstname, lastname, email ,password) VALUES ($1, $2, $3, $4 ) RETURNING *', [firstname, lastname, name, email, password], (error, results) => {
       if (error) {
         throw error
       }
-      response.status(201).send(`User added with ordernumber: ${results.rows[0].id}`)
+      const responseBody = { message : `User added with ordernumber: ${results.rows[0].id}`}
+      response.status(201).json(responseBody)
     })
   }
 
